@@ -1,0 +1,70 @@
+<div class="container py-4" cdkDropListGroup>
+  <h1 class="mb-4 text-center">Kanban</h1>
+
+  <div class="row g-3">
+    <!-- À FAIRE -->
+    <div class="col-md-4">
+      <h4>À faire</h4>
+      <div
+        cdkDropList
+        [cdkDropListData]="todo"
+        [cdkDropListConnectedTo]="['doingList','doneList']"
+        (cdkDropListDropped)="drop($event, 'todo')"
+        class="bg-light p-3 rounded min-vh-25"
+        id="todoList">
+        <div class="card mb-2" *ngFor="let t of todo; trackBy: trackId" cdkDrag>
+          <div class="card-body d-flex align-items-center gap-2">
+            <span cdkDragHandle style="cursor:grab">⋮⋮</span>
+            <span class="flex-grow-1">{{ t.title }}</span>
+            <button class="btn btn-sm btn-danger" (click)="remove(t)">✕</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- EN COURS -->
+    <div class="col-md-4">
+      <h4>En cours</h4>
+      <div
+        cdkDropList
+        [cdkDropListData]="doing"
+        [cdkDropListConnectedTo]="['todoList','doneList']"
+        (cdkDropListDropped)="drop($event, 'doing')"
+        class="bg-light p-3 rounded min-vh-25"
+        id="doingList">
+        <div class="card mb-2" *ngFor="let t of doing; trackBy: trackId" cdkDrag>
+          <div class="card-body d-flex align-items-center gap-2">
+            <span cdkDragHandle style="cursor:grab">⋮⋮</span>
+            <span class="flex-grow-1">{{ t.title }}</span>
+            <button class="btn btn-sm btn-danger" (click)="remove(t)">✕</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TERMINÉ -->
+    <div class="col-md-4">
+      <h4>Terminé</h4>
+      <div
+        cdkDropList
+        [cdkDropListData]="done"
+        [cdkDropListConnectedTo]="['todoList','doingList']"
+        (cdkDropListDropped)="drop($event, 'done')"
+        class="bg-light p-3 rounded min-vh-25"
+        id="doneList">
+        <div class="card mb-2" *ngFor="let t of done; trackBy: trackId" cdkDrag>
+          <div class="card-body d-flex align-items-center gap-2">
+            <span cdkDragHandle style="cursor:grab">⋮⋮</span>
+            <span class="flex-grow-1">{{ t.title }}</span>
+            <button class="btn btn-sm btn-danger" (click)="remove(t)">✕</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="mt-4 d-flex gap-2">
+    <input [(ngModel)]="newTitle" class="form-control" placeholder="Nouvelle tâche" />
+    <button (click)="add()" class="btn btn-primary">Ajouter</button>
+  </div>
+</div>
